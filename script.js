@@ -47,4 +47,38 @@ btn.addEventListener("click", () => {
     });
 });
 
+const generateRandomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
+const shrimpUrlArr = [
+    "https://www.bittentoast.com/rpgicons/fant_env/Shrimp.png",
+    "https://icons.iconarchive.com/icons/google/noto-emoji-animals-nature/256/22301-shrimp-icon.png",
+    "https://www.gensh.in/fileadmin/Database/Consumables/Item_Stir-Fried_Shrimp.png"
+];
+
+document.querySelector(".cards .cards .col-lg-3:nth-child(8) .card-body").innerHTML = "<button>Click me to open the shrimp game</button>";
+
+document.querySelector("button").addEventListener("click", () => {
+    const shrimpContainer = document.createElement("div");
+    shrimpContainer.style.border = "1px solid #333";
+    shrimpContainer.style.height = "500px";
+    shrimpContainer.style.marginTop = "2rem";
+    shrimpContainer.style.position = "relative";
+    shrimpContainer.style.overflow = "hidden";
+    shrimpContainer.classList.add("container");
+    shrimpContainer.classList.add("shrimp-game");
+    const lastElement = document.querySelector(".container.cards");
+    lastElement.parentNode.insertBefore(shrimpContainer, lastElement.nextSibling);
+    const shrimpGameContainerDOM = document.querySelector(".shrimp-game");
+    shrimpGameContainerDOM.addEventListener("click", () => {
+        shrimpImg = document.createElement("img");
+        shrimpImg.src = shrimpUrlArr[generateRandomNumber(0, shrimpUrlArr.length - 1)];
+        shrimpImg.style.position = "absolute";
+        shrimpImg.style.top = `${generateRandomNumber(0, 500)}px`;
+        let widthShrimpContainer = shrimpGameContainerDOM.getBoundingClientRect().right - shrimpGameContainerDOM.getBoundingClientRect().left;
+        shrimpImg.style.left = `${generateRandomNumber(0, widthShrimpContainer)}px`;
+        shrimpGameContainerDOM.appendChild(shrimpImg);
+    })
+
+});
