@@ -33,17 +33,31 @@ cardTexts.forEach(ct => {
     ct.innerText = ct.innerText[0].toUpperCase() + ct.innerText.substring(1);
 });
 
+let btnClick = false;
+
 const btn = document.querySelector(".btn");
 btn.removeAttribute("href");
 btn.addEventListener("click", () => {
     const ogText = document.querySelector(".cards .cards .col-lg-3:nth-child(7) .card-text");
-    const ogChars = ogText.innerText.split(" ");
-    ogText.innerText = "";
-    ogChars.forEach(char => {
-        let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-        console.log(randomColor);
-        ogText.innerHTML = `${ogText.innerHTML}<span style = "color: ${randomColor}; padding:0 5px;">${char}</span>`;
-    });
+    let ogChars;
+    if(!btnClick){
+        ogChars = ogText.innerText.split(" ");
+    } else {
+        ogChars = document.querySelectorAll(".cards .cards .col-lg-3:nth-child(7) .card-text span")
+    };
+    if(!btnClick){
+        ogText.innerText = "";
+        ogChars.forEach(char => {
+            let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            ogText.innerHTML = `${ogText.innerHTML}<span style = "color: ${randomColor}; padding:0 5px;">${char}</span>`;
+        });
+    } else {
+        ogChars.forEach(span => {
+            let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            span.style.color = randomColor;
+        });
+    };
+    btnClick = true;
 });
 
 const generateRandomNumber = (min, max) => {
@@ -55,7 +69,6 @@ const moveRandomly = (el , moveX, moveY) => {
     el.style.left = `${+el.style.left.substr(0, el.style.left.length - 2) + moveX}px`;
 }
 
-
 const shrimpUrlArr = [
     "https://www.bittentoast.com/rpgicons/fant_env/Shrimp.png",
     "https://icons.iconarchive.com/icons/google/noto-emoji-animals-nature/256/22301-shrimp-icon.png",
@@ -63,32 +76,37 @@ const shrimpUrlArr = [
     "https://icons-for-free.com/download-icon-shrimp-131983752943175303_256.png",
     "https://styles.redditmedia.com/t5_2v6xy/styles/communityIcon_o60uuk98pwm11.png",
     "https://www.shareicon.net/data/256x256/2016/05/04/760011_animal_512x512.png",
-    "https://images.vexels.com/media/users/3/253666/isolated/lists/6ea5a2437b50ab94d9a2a9c5caccba9d-shrimply-the-best-shrimp-quote-color-stroke.png"
+    "https://images.vexels.com/media/users/3/253666/isolated/lists/6ea5a2437b50ab94d9a2a9c5caccba9d-shrimply-the-best-shrimp-quote-color-stroke.png",
+    "https://api.ambr.top/assets/UI/UI_ItemIcon_100093.png",
+    "https://icons.iconarchive.com/icons/unclebob/spanish-travel/256/shrimp-icon.png",
+    "https://dtgxwmigmg3gc.cloudfront.net/imagery/assets/derivations/icon/256/256/true/eyJpZCI6IjJjZjdlY2IzNWVlYTg2Y2MzNTg2YzE5YTFiMWI1ZWY0LmpwZyIsInN0b3JhZ2UiOiJwdWJsaWNfc3RvcmUifQ?signature=b1433e516a6dccf825a6697c23e10ae5aad02d855822f8cbec8da520930da20f"
 ];
 
 document.querySelector(".cards .cards .col-lg-3:nth-child(8) .card-body").innerHTML = "<button>Click me to open the shrimp game</button>";
 
 document.querySelector("button").addEventListener("click", () => {
-    const shrimpSection = document.createElement("section");
-    shrimpSection.classList.add("container");
-    shrimpSection.style.marginTop = "3rem";
-    
-    const shrimpExplanation = document.createElement("p");
-    shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on the shrimp to move it inside the box";
+    if (!document.querySelector(".shrimp-game")){
+        const shrimpSection = document.createElement("section");
+        shrimpSection.classList.add("container");
+        shrimpSection.style.marginTop = "3rem";
+        
+        const shrimpExplanation = document.createElement("p");
+        shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on the shrimp to move it inside the box. Hover over a shrimp to change his color";
 
-    const shrimpContainer = document.createElement("div");
-    shrimpContainer.style.border = "1px solid #333";
-    shrimpContainer.style.height = "500px";
-    shrimpContainer.style.marginTop = "1rem";
-    shrimpContainer.style.position = "relative";
-    shrimpContainer.style.overflow = "hidden";
-    shrimpContainer.classList.add("shrimp-game");
+        const shrimpContainer = document.createElement("div");
+        shrimpContainer.style.border = "1px solid #333";
+        shrimpContainer.style.height = "500px";
+        shrimpContainer.style.marginTop = "1rem";
+        shrimpContainer.style.position = "relative";
+        shrimpContainer.style.overflow = "hidden";
+        shrimpContainer.classList.add("shrimp-game");
 
-    shrimpSection.appendChild(shrimpExplanation);
-    shrimpSection.appendChild(shrimpContainer);
+        shrimpSection.appendChild(shrimpExplanation);
+        shrimpSection.appendChild(shrimpContainer);
 
-    const lastElement = document.querySelector(".container.cards");
-    lastElement.parentNode.insertBefore(shrimpSection, lastElement.nextSibling);
+        const lastElement = document.querySelector(".container.cards");
+        lastElement.parentNode.insertBefore(shrimpSection, lastElement.nextSibling);
+    };
     const shrimpGameContainerDOM = document.querySelector(".shrimp-game");
     shrimpGameContainerDOM.addEventListener("click", (e) => {
         if (e.target.tagName === "DIV"){
@@ -105,7 +123,16 @@ document.querySelector("button").addEventListener("click", () => {
             e.target.style.transform = "rotate(360deg)";
             e.target.addEventListener("dblclick", () => {
                 moveRandomly(e.target, generateRandomNumber(-100, 100), generateRandomNumber(-100, 100));
-            })
+            });
         };
+        let shrimps = document.querySelectorAll(".shrimp-game img");
+        shrimps.forEach(shrimp =>{
+            shrimp.addEventListener("mouseover", () => {
+                shrimp.style.filter = `hue-rotate(${generateRandomNumber(0, 360)}deg)`;
+            });
+            shrimp.addEventListener("mouseout", () => {
+                shrimp.style.filter = "";
+            });
+        });
     });
 });
