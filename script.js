@@ -84,6 +84,14 @@ const shrimpUrlArr = [
 
 document.querySelector(".cards .cards .col-lg-3:nth-child(8) .card-body").innerHTML = "<button>Click me to open the shrimp game</button>";
 
+document.querySelector("button").addEventListener("mouseover", () => {
+    document.querySelector("button").style.background = "#ccc";
+});
+
+document.querySelector("button").addEventListener("mouseout", () => {
+    document.querySelector("button").style.background = "";
+});
+
 document.querySelector("button").addEventListener("click", () => {
     if (!document.querySelector(".shrimp-game")){
         const shrimpSection = document.createElement("section");
