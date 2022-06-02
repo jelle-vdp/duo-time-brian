@@ -99,7 +99,7 @@ document.querySelector("button").addEventListener("click", () => {
         shrimpSection.style.marginTop = "3rem";
         
         const shrimpExplanation = document.createElement("p");
-        shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on the shrimp to move it inside the box. Hover over a shrimp to change his color";
+        shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on a shrimp to move it around randomly inside the box. Click on a shrimp, while holding the 'alt' key and it will double in size for 3 seconds. Hover over a shrimp to change his color";
 
         const shrimpContainer = document.createElement("div");
         shrimpContainer.style.border = "1px solid #333";
@@ -132,6 +132,10 @@ document.querySelector("button").addEventListener("click", () => {
             e.target.addEventListener("dblclick", () => {
                 moveRandomly(e.target, generateRandomNumber(-100, 100), generateRandomNumber(-100, 100));
             });
+            if (e.altKey){
+                e.target.style.transform = "scale(2)";
+                setTimeout(() => e.target.style.transform = "", 3000)
+            }
         };
         let shrimps = document.querySelectorAll(".shrimp-game img");
         shrimps.forEach(shrimp =>{
