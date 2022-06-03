@@ -102,7 +102,7 @@ document.querySelector("button").addEventListener("click", () => {
         shrimpSection.classList.add("shrimp-game");
         
         const shrimpExplanation = document.createElement("p");
-        shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on a shrimp to move it around randomly inside the box. Click on a shrimp, while holding the 'alt' key and it will double in size for 3 seconds. Hover over a shrimp to change his color";
+        shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on a shrimp to move it around randomly inside the box. Click on a shrimp, while holding the 'alt' key and it will double in size for 3 seconds. Hover over a shrimp to change his color. And last but not least: click on the disco button to go wild (for 5 seconds at least).";
 
         const shrimpContainer = document.createElement("div");
         shrimpContainer.style.border = "1px solid #333";
@@ -149,11 +149,16 @@ document.querySelector("button").addEventListener("click", () => {
         } else if (e.target.tagName === "BUTTON"){
             let discoShrimps = document.querySelectorAll(".shrimp-game img");
             discoShrimps.forEach(shrimp => {
-                discoInterval = setInterval(() => {
+                const discoInterval = setInterval(() => {
                     shrimp.style.filter = `hue-rotate(${generateRandomNumber(-360, 360)}deg)`;
                     shrimpGameDiv.style.background = `#${Math.floor(Math.random()*16777215).toString(16)}`;
                 }
                 , 100);
+                setTimeout(() => {
+                    clearInterval(discoInterval);
+                    shrimp.style.filter = "";
+                    shrimpGameDiv.style.background = "";
+                }, 5000);
             });
         };
         let shrimps = document.querySelectorAll(".shrimp-game img");
