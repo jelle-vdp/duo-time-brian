@@ -132,12 +132,12 @@ document.querySelector("button").addEventListener("click", () => {
             shrimpImg.src = shrimpUrlArr[generateRandomNumber(0, shrimpUrlArr.length - 1)];
             shrimpImg.style.position = "absolute";
             shrimpImg.style.width = "100px";
-            shrimpImg.style.transition = "0.5s ease-in-out";
             shrimpImg.style.top = `${generateRandomNumber(-50, 550)}px`;
             let widthShrimpContainer = shrimpGameContainerDOM.getBoundingClientRect().right - shrimpGameContainerDOM.getBoundingClientRect().left;
             shrimpImg.style.left = `${generateRandomNumber(-50, widthShrimpContainer + 50)}px`;
             shrimpGameDiv.appendChild(shrimpImg);
         } else if (e.target.tagName === "IMG"){
+            e.target.style.transition = "0.5s ease-in-out";
             e.target.style.transform = "rotate(360deg)";
             e.target.addEventListener("dblclick", () => {
                 moveRandomly(e.target, generateRandomNumber(-100, 100), generateRandomNumber(-100, 100));
@@ -152,13 +152,20 @@ document.querySelector("button").addEventListener("click", () => {
                 const discoInterval = setInterval(() => {
                     shrimp.style.filter = `hue-rotate(${generateRandomNumber(-360, 360)}deg)`;
                     shrimpGameDiv.style.background = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-                }
-                , 100);
+                    shrimp.style.transform = "rotate(1800deg) scale(5)";
+                    shrimp.style.transition = "5s ease-in-out";
+                }, 100);
                 setTimeout(() => {
                     clearInterval(discoInterval);
                     shrimp.style.filter = "";
                     shrimpGameDiv.style.background = "";
+                    shrimp.style.transition = "5s ease-in-out";
+                    shrimp.style.transform = "scale(1)";
                 }, 5000);
+                setTimeout(() => {
+                    shrimp.style.transition = "";
+                    shrimp.style.transform = "";
+                }, 10000);
             });
         };
         let shrimps = document.querySelectorAll(".shrimp-game img");
