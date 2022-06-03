@@ -2,6 +2,7 @@
 ## link
 [WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOT](https://martekode.github.io/duo-time/)
 
+HTML & CSS by fellow BeCode student Brian, JS by me
 
 ### One pager of your partner with the following details:
 * it's responsive
