@@ -97,6 +97,9 @@ document.querySelector("button").addEventListener("click", () => {
         const shrimpSection = document.createElement("section");
         shrimpSection.classList.add("container");
         shrimpSection.style.marginTop = "3rem";
+        shrimpSection.style.display = "flex";
+        shrimpSection.style.flexDirection = "column";
+        shrimpSection.classList.add("shrimp-game");
         
         const shrimpExplanation = document.createElement("p");
         shrimpExplanation.innerText = "Click inside the box to spawn a random shrimp. Click on one of the shrimps to make it spin around. Doubleclick on a shrimp to move it around randomly inside the box. Click on a shrimp, while holding the 'alt' key and it will double in size for 3 seconds. Hover over a shrimp to change his color";
@@ -107,15 +110,22 @@ document.querySelector("button").addEventListener("click", () => {
         shrimpContainer.style.marginTop = "1rem";
         shrimpContainer.style.position = "relative";
         shrimpContainer.style.overflow = "hidden";
-        shrimpContainer.classList.add("shrimp-game");
+
+        const shrimpDiscoBtn = document.createElement("button");
+        shrimpDiscoBtn.innerText = "Let's go disco!";
+        shrimpDiscoBtn.style.margin = "1rem auto 0 auto";
+        shrimpDiscoBtn.style.padding = "0.6rem 0.8rem";
+        shrimpDiscoBtn.style.background = "pink";
 
         shrimpSection.appendChild(shrimpExplanation);
         shrimpSection.appendChild(shrimpContainer);
+        shrimpSection.appendChild(shrimpDiscoBtn);
 
         const lastElement = document.querySelector(".container.cards");
         lastElement.parentNode.insertBefore(shrimpSection, lastElement.nextSibling);
     };
     const shrimpGameContainerDOM = document.querySelector(".shrimp-game");
+    const shrimpGameDiv = document.querySelector(".shrimp-game div");
     shrimpGameContainerDOM.addEventListener("click", (e) => {
         if (e.target.tagName === "DIV"){
             shrimpImg = document.createElement("img");
@@ -126,7 +136,7 @@ document.querySelector("button").addEventListener("click", () => {
             shrimpImg.style.top = `${generateRandomNumber(-50, 550)}px`;
             let widthShrimpContainer = shrimpGameContainerDOM.getBoundingClientRect().right - shrimpGameContainerDOM.getBoundingClientRect().left;
             shrimpImg.style.left = `${generateRandomNumber(-50, widthShrimpContainer + 50)}px`;
-            shrimpGameContainerDOM.appendChild(shrimpImg);
+            shrimpGameDiv.appendChild(shrimpImg);
         } else if (e.target.tagName === "IMG"){
             e.target.style.transform = "rotate(360deg)";
             e.target.addEventListener("dblclick", () => {
@@ -134,13 +144,22 @@ document.querySelector("button").addEventListener("click", () => {
             });
             if (e.altKey){
                 e.target.style.transform = "scale(2)";
-                setTimeout(() => e.target.style.transform = "", 3000)
-            }
+                setTimeout(() => e.target.style.transform = "", 3000);
+            };
+        } else if (e.target.tagName === "BUTTON"){
+            let discoShrimps = document.querySelectorAll(".shrimp-game img");
+            discoShrimps.forEach(shrimp => {
+                discoInterval = setInterval(() => {
+                    shrimp.style.filter = `hue-rotate(${generateRandomNumber(-360, 360)}deg)`;
+                    shrimpGameDiv.style.background = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                }
+                , 100);
+            });
         };
         let shrimps = document.querySelectorAll(".shrimp-game img");
         shrimps.forEach(shrimp =>{
             shrimp.addEventListener("mouseover", () => {
-                shrimp.style.filter = `hue-rotate(${generateRandomNumber(0, 360)}deg)`;
+                shrimp.style.filter = `hue-rotate(${generateRandomNumber(-360, 360)}deg)`;
             });
             shrimp.addEventListener("mouseout", () => {
                 shrimp.style.filter = "";
